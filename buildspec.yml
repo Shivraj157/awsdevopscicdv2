@@ -1,20 +1,12 @@
 version: 0.2
 phases:
-  install:
-    commands:
-      - echo Installing NGINX
-      - sudo yum -y update
-      - sudo yum install nginx -y
-      - sudo mkdir -p /var/www/html
-      - echo NGINX insstalled and version nginx -v
-  build:
-    commands:
-      - echo Build started on `date`
-      - cp index.html /var/www/html/
-  post_build:
-    commands:
-      - echo Build completed on `date`
+ install:
+   commands:
+     - echo "Skipping yum update"
+ build:
+   commands:
+     - echo "Build step starts"
+     - echo "You can put npm build or zip here"
 artifacts:
-  files:
-    - '**/*'
-    - '**/*'
+ files:
+   - '**/*'
