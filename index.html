@@ -1,66 +1,133 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title> AWS CloudFront </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /* Style the header */
-      header {
-        background-color: #0073e6;
-        padding: 30px;
-        text-align: center;
-        color: white;
-        font-size: 36px;
-      }
-      /* Style the top navigation bar */
-      nav {
-        background-color: #f2f2f2;
-        overflow: hidden;
-        text-align: center;
-      }
-      nav a {
-        display: inline-block;
-        color: #333;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 20px;
-      }
-      nav a:hover {
-        background-color: #ddd;
-        color: #0073e6;
-      }
-      /* Style the content */
-      main {
-        padding: 20px;
-        text-align: center;
-      }
-      main h2 {
-        font-size: 32px;
-        color: #0073e6;
-      }
-      main p {
-        font-size: 24px;
-        color: #333;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>AWS </h1>
-    </header>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">Pricing</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
-    <main>
-      <h2>Welcome to AWS  </h2>
-      <p>We offer a wide range of cloud computing services to help your business succeed.</p>
-      <p>hello my name is shivraj</p>
-      <p>hello </p>
-    </main>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Fitness Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="fitness-app">
+        <header>
+            <h1>My Fitness Tracker</h1>
+            <div class="date-display" id="current-date"></div>
+        </header>
+
+        <main>
+            <section class="workout-section">
+                <h2>Today's Workout</h2>
+                <div class="workout-form">
+                    <input type="text" id="exercise-input" placeholder="Enter exercise">
+                    <input type="number" id="duration-input" placeholder="Minutes">
+                    <button id="add-workout">Add Workout</button>
+                </div>
+                <ul class="workout-list" id="workout-list"></ul>
+            </section>
+
+            <section class="stats-section">
+                <h2>Today's Stats</h2>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <span class="stat-value" id="total-workouts">0</span>
+                        <span class="stat-label">Workouts</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="total-minutes">0</span>
+                        <span class="stat-label">Minutes</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="calories-burned">0</span>
+                        <span class="stat-label">Calories</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="water-section">
+                <h2>Water Intake</h2>
+                <div class="water-tracker">
+                    <button class="water-btn" id="minus-water">-</button>
+                    <div class="water-count" id="water-count">0</div>
+                    <button class="water-btn" id="plus-water">+</button>
+                    <span class="water-unit">glasses</span>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2023 Simple Fitness Tracker</p>
+        </footer>
+    </div>
+
+    <script>
+        // Basic functionality without external JS file
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display current date
+            const now = new Date();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            // Water intake functionality
+            const waterCount = document.getElementById('water-count');
+            const plusWater = document.getElementById('plus-water');
+            const minusWater = document.getElementById('minus-water');
+
+            plusWater.addEventListener('click', () => {
+                waterCount.textContent = parseInt(waterCount.textContent) + 1;
+            });
+
+            minusWater.addEventListener('click', () => {
+                const current = parseInt(waterCount.textContent);
+                if (current > 0) {
+                    waterCount.textContent = current - 1;
+                }
+            });
+
+            // Workout functionality
+            const workoutList = document.getElementById('workout-list');
+            const addWorkoutBtn = document.getElementById('add-workout');
+            const exerciseInput = document.getElementById('exercise-input');
+            const durationInput = document.getElementById('duration-input');
+            const totalWorkouts = document.getElementById('total-workouts');
+            const totalMinutes = document.getElementById('total-minutes');
+            const caloriesBurned = document.getElementById('calories-burned');
+
+            addWorkoutBtn.addEventListener('click', () => {
+                const exercise = exerciseInput.value.trim();
+                const duration = parseInt(durationInput.value);
+
+                if (exercise && duration) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="exercise">${exercise}</span>
+                        <span class="duration">${duration} min</span>
+                        <span class="delete">×</span>
+                    `;
+                    workoutList.appendChild(li);
+
+                    // Update stats
+                    totalWorkouts.textContent = parseInt(totalWorkouts.textContent) + 1;
+                    totalMinutes.textContent = parseInt(totalMinutes.textContent) + duration;
+                    caloriesBurned.textContent = Math.round(parseInt(caloriesBurned.textContent) + (duration * 5);
+
+                    // Clear inputs
+                    exerciseInput.value = '';
+                    durationInput.value = '';
+
+                    // Add delete functionality
+                    li.querySelector('.delete').addEventListener('click', function() {
+                        const durationToRemove = parseInt(li.querySelector('.duration').textContent);
+                        totalWorkouts.textContent = parseInt(totalWorkouts.textContent) - 1;
+                        totalMinutes.textContent = parseInt(totalMinutes.textContent) - durationToRemove;
+                        caloriesBurned.textContent = Math.round(parseInt(caloriesBurned.textContent) - (durationToRemove * 5);
+                        li.remove();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
 </html>
