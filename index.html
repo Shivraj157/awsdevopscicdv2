@@ -11,6 +11,7 @@
         <header>
             <h1>My Fitness Tracker</h1>
             <div class="date-display" id="current-date"></div>
+            <button id="export-data" class="export-btn">Export Data</button>
         </header>
 
         <main>
@@ -58,76 +59,6 @@
         </footer>
     </div>
 
-    <script>
-        // Basic functionality without external JS file
-        document.addEventListener('DOMContentLoaded', function() {
-            // Display current date
-            const now = new Date();
-            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-
-            // Water intake functionality
-            const waterCount = document.getElementById('water-count');
-            const plusWater = document.getElementById('plus-water');
-            const minusWater = document.getElementById('minus-water');
-
-            plusWater.addEventListener('click', () => {
-                waterCount.textContent = parseInt(waterCount.textContent) + 1;
-            });
-
-            minusWater.addEventListener('click', () => {
-                const current = parseInt(waterCount.textContent);
-                if (current > 0) {
-                    waterCount.textContent = current - 1;
-                }
-            });
-
-            // Workout functionality
-            const workoutList = document.getElementById('workout-list');
-            const addWorkoutBtn = document.getElementById('add-workout');
-            const exerciseInput = document.getElementById('exercise-input');
-            const durationInput = document.getElementById('duration-input');
-            const totalWorkouts = document.getElementById('total-workouts');
-            const totalMinutes = document.getElementById('total-minutes');
-            const caloriesBurned = document.getElementById('calories-burned');
-
-            addWorkoutBtn.addEventListener('click', () => {
-                const exercise = exerciseInput.value.trim();
-                const duration = parseInt(durationInput.value);
-
-                if (exercise && duration) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span class="exercise">${exercise}</span>
-                        <span class="duration">${duration} min</span>
-                        <span class="delete">×</span>
-                    `;
-                    workoutList.appendChild(li);
-
-                    // Update stats
-                    totalWorkouts.textContent = parseInt(totalWorkouts.textContent) + 1;
-                    totalMinutes.textContent = parseInt(totalMinutes.textContent) + duration;
-                    caloriesBurned.textContent = Math.round(parseInt(caloriesBurned.textContent) + (duration * 5);
-
-                    // Clear inputs
-                    exerciseInput.value = '';
-                    durationInput.value = '';
-
-                    // Add delete functionality
-                    li.querySelector('.delete').addEventListener('click', function() {
-                        const durationToRemove = parseInt(li.querySelector('.duration').textContent);
-                        totalWorkouts.textContent = parseInt(totalWorkouts.textContent) - 1;
-                        totalMinutes.textContent = parseInt(totalMinutes.textContent) - durationToRemove;
-                        caloriesBurned.textContent = Math.round(parseInt(caloriesBurned.textContent) - (durationToRemove * 5);
-                        li.remove();
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
