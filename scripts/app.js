@@ -153,26 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
             durationInput.value = '';
         }
     });
-
-    const sendData = async () => {
- const data = {
-   userId: "shivraj123",
-   date: "2025-07-17",
-   workouts: [
-     { exercise: "Push Ups", minutes: 15 },
-     { exercise: "Running", minutes: 30 }
-   ],
-   waterIntake: 5,
-   totalCalories: 400
- };
- const response = await fetch("https://your-api-id.execute-api.region.amazonaws.com/prod/store", {
-   method: "POST",
-   headers: { "Content-Type": "application/json" },
-   body: JSON.stringify(data)
- });
- const result = await response.json();
- console.log(result);
-};
     // Export data
     exportBtn.addEventListener('click', () => {
         const dataStr = JSON.stringify(fitnessData, null, 2);
