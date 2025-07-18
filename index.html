@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Fitness Tracker</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Fitness Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="fitness-app">
-        <header>
-            <h1>My Fitness Tracker</h1>
-            <div class="date-display" id="current-date"></div>
-            <button id="export-data" class="export-btn">Export Data</button>
-        </header>
+  <div class="fitness-app">
+    <header>
+      <h1>🏋️‍♂️ My Fitness Tracker</h1>
+      <div class="top-controls">
+        <div class="date-display" id="current-date"></div>
+        <button id="export-data" class="export-btn">Export Data</button>
+        <button id="toggle-theme">🌙 Dark Mode</button>
+      </div>
+    </header>
 
-        <main>
-            <section class="workout-section">
-                <h2>Today's Workout</h2>
-                <div class="workout-form">
-                    <input type="text" id="exercise-input" placeholder="Enter exercise">
-                    <input type="number" id="duration-input" placeholder="Minutes">
-                    <button id="add-workout">Add Workout</button>
-                </div>
-                <ul class="workout-list" id="workout-list"></ul>
-            </section>
+    <main>
+      <section class="workout-section">
+        <h2>Today's Workout</h2>
+        <div class="workout-form">
+          <input type="text" id="exercise-input" placeholder="Enter exercise" />
+          <input type="number" id="duration-input" placeholder="Minutes" />
+          <button id="add-workout">Add Workout</button>
+        </div>
+        <ul class="workout-list" id="workout-list"></ul>
+      </section>
 
-            <section class="stats-section">
-                <h2>Today's Stats</h2>
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <span class="stat-value" id="total-workouts">0</span>
-                        <span class="stat-label">Workouts</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-value" id="total-minutes">0</span>
-                        <span class="stat-label">Minutes</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-value" id="calories-burned">0</span>
-                        <span class="stat-label">Calories</span>
-                    </div>
-                </div>
-            </section>
+      <section class="goal-section">
+        <h2>Daily Goal</h2>
+        <label for="goal-input">Set Goal (min):</label>
+        <input type="number" id="goal-input" value="60" />
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </section>
 
-            <section class="water-section">
-                <h2>Water Intake Fill</h2>
-                <div class="water-tracker">
-                    <button class="water-btn" id="minus-water">-</button>
-                    <div class="water-count" id="water-count">0</div>
-                    <button class="water-btn" id="plus-water">+</button>
-                    <span class="water-unit">glasses</span>
-                </div>
-            </section>
-        </main>
+      <section class="stats-section">
+        <h2>Today's Stats</h2>
+        <div class="stats-cards">
+          <div class="stat-card">
+            <span class="stat-value" id="total-workouts">0</span>
+            <span class="stat-label">Workouts</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="total-minutes">0</span>
+            <span class="stat-label">Minutes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="calories-burned">0</span>
+            <span class="stat-label">Calories</span>
+          </div>
+        </div>
+      </section>
 
-        <footer>
-            <p>© 2025 Simple Fitness Tracker</p>
-            <p> Created By shivraj Jadhav Pune</p>
-        </footer>
-    </div>
+      <section class="water-section">
+        <h2>Water Intake</h2>
+        <div class="water-tracker">
+          <button class="water-btn" id="minus-water">-</button>
+          <div class="water-count" id="water-count">0</div>
+          <button class="water-btn" id="plus-water">+</button>
+          <span class="water-unit">glasses</span>
+        </div>
+      </section>
 
-    <script src="app.js"></script>
+      <section class="history-section">
+        <h2>Workout History</h2>
+        <button id="view-history">👁️ View History</button>
+        <ul id="history-list"></ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 Simple Fitness Tracker</p>
+      <p>Created by Shivraj Jadhav, Pune</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

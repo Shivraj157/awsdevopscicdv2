@@ -1,170 +1,109 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize data structure
-    let fitnessData = {
-        user: {
-            name: "User",
-            goal: "Stay Active"
-        },
-        dailyLogs: {},
-        lastUpdated: null
-    };
+// Get elements
+const currentDate = document.getElementById('current-date');
+const exerciseInput = document.getElementById('exercise-input');
+const durationInput = document.getElementById('duration-input');
+const workoutList = document.getElementById('workout-list');
+const addWorkoutBtn = document.getElementById('add-workout');
 
-    // DOM Elements
-    const currentDateEl = document.getElementById('current-date');
-    const waterCountEl = document.getElementById('water-count');
-    const plusWaterBtn = document.getElementById('plus-water');
-    const minusWaterBtn = document.getElementById('minus-water');
-    const workoutListEl = document.getElementById('workout-list');
-    const addWorkoutBtn = document.getElementById('add-workout');
-    const exerciseInput = document.getElementById('exercise-input');
-    const durationInput = document.getElementById('duration-input');
-    const totalWorkoutsEl = document.getElementById('total-workouts');
-    const totalMinutesEl = document.getElementById('total-minutes');
-    const caloriesBurnedEl = document.getElementById('calories-burned');
-    const exportBtn = document.getElementById('export-data');
+const totalWorkoutsElem = document.getElementById('total-workouts');
+const totalMinutesElem = document.getElementById('total-minutes');
+const caloriesBurnedElem = document.getElementById('calories-burned');
 
-    // Current date setup
-    const now = new Date();
-    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD format
-    currentDateEl.textContent = now.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
+const plusWaterBtn = document.getElementById('plus-water');
+const minusWaterBtn = document.getElementById('minus-water');
+const waterCountElem = document.getElementById('water-count');
 
-    // Load saved data
-    function loadData() {
-        const savedData = localStorage.getItem('fitnessData');
-        if (savedData) {
-            fitnessData = JSON.parse(savedData);
-            
-            // Load today's data if exists
-            if (fitnessData.dailyLogs[today]) {
-                const todayData = fitnessData.dailyLogs[today];
-                
-                // Load workouts
-                if (todayData.workouts) {
-                    todayData.workouts.forEach(workout => {
-                        addWorkoutToDOM(workout);
-                    });
-                    updateWorkoutStats();
-                }
-                
-                // Load water intake
-                if (todayData.waterIntake !== undefined) {
-                    waterCountEl.textContent = todayData.waterIntake;
-                }
-            }
-        }
-    }
+const goalInput = document.getElementById('goal-input');
+const progressBar = document.getElementById('progress-bar');
 
-    // Save data to localStorage
-    function saveData() {
-        fitnessData.lastUpdated = new Date().toISOString();
-        localStorage.setItem('fitnessData', JSON.stringify(fitnessData));
-    }
+const toggleThemeBtn = document.getElementById('toggle-theme');
+const viewHistoryBtn = document.getElementById('view-history');
+const historyList = document.getElementById('history-list');
 
-    // Water intake functions
-    function updateWaterIntake(change) {
-        // Initialize today's log if doesn't exist
-        if (!fitnessData.dailyLogs[today]) {
-            fitnessData.dailyLogs[today] = {};
-        }
-        
-        const current = fitnessData.dailyLogs[today].waterIntake || 0;
-        const newValue = Math.max(0, current + change);
-        
-        fitnessData.dailyLogs[today].waterIntake = newValue;
-        waterCountEl.textContent = newValue;
-        saveData();
-    }
+// Initial state
+let totalMinutes = 0;
+let totalWorkouts = 0;
+let waterCount = 0;
+let workoutHistory = JSON.parse(localStorage.getItem('workoutHistory')) || [];
 
-    plusWaterBtn.addEventListener('click', () => updateWaterIntake(1));
-    minusWaterBtn.addEventListener('click', () => updateWaterIntake(-1));
+// Display current date
+currentDate.textContent = new Date().toDateString();
 
-    // Workout functions
-    function addWorkoutToDOM(workout) {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span class="exercise">${workout.exercise}</span>
-            <span class="duration">${workout.duration} min</span>
-            <span class="delete">×</span>
-        `;
-        workoutListEl.appendChild(li);
-        
-        li.querySelector('.delete').addEventListener('click', function() {
-            const duration = workout.duration;
-            li.remove();
-            
-            // Remove from data
-            const index = fitnessData.dailyLogs[today].workouts.findIndex(
-                w => w.exercise === workout.exercise && w.duration === workout.duration
-            );
-            if (index > -1) {
-                fitnessData.dailyLogs[today].workouts.splice(index, 1);
-                saveData();
-                updateWorkoutStats();
-            }
-        });
-    }
+/* 🏋️ Add Workout */
+addWorkoutBtn.onclick = () => {
+  const exercise = exerciseInput.value.trim();
+  const duration = parseInt(durationInput.value.trim());
 
-    function updateWorkoutStats() {
-        if (!fitnessData.dailyLogs[today] || !fitnessData.dailyLogs[today].workouts) {
-            totalWorkoutsEl.textContent = 0;
-            totalMinutesEl.textContent = 0;
-            caloriesBurnedEl.textContent = 0;
-            return;
-        }
-        
-        const workouts = fitnessData.dailyLogs[today].workouts;
-        const totalMinutes = workouts.reduce((sum, workout) => sum + workout.duration, 0);
-        
-        totalWorkoutsEl.textContent = workouts.length;
-        totalMinutesEl.textContent = totalMinutes;
-        caloriesBurnedEl.textContent = Math.round(totalMinutes * 5); // 5 cal/min estimate
-    }
+  if (!exercise || isNaN(duration) || duration <= 0) return;
 
-    addWorkoutBtn.addEventListener('click', () => {
-        const exercise = exerciseInput.value.trim();
-        const duration = parseInt(durationInput.value);
+  totalMinutes += duration;
+  totalWorkouts++;
+  const calories = Math.floor(duration * 5); // Simple estimate
+  const listItem = document.createElement('li');
+  listItem.textContent = `${exercise} — ${duration} min`;
+  workoutList.appendChild(listItem);
 
-        if (exercise && duration) {
-            const workout = { exercise, duration };
-            
-            // Initialize today's log if doesn't exist
-            if (!fitnessData.dailyLogs[today]) {
-                fitnessData.dailyLogs[today] = { workouts: [] };
-            }
-            
-            // Initialize workouts array if doesn't exist
-            if (!fitnessData.dailyLogs[today].workouts) {
-                fitnessData.dailyLogs[today].workouts = [];
-            }
-            
-            // Add workout
-            fitnessData.dailyLogs[today].workouts.push(workout);
-            addWorkoutToDOM(workout);
-            updateWorkoutStats();
-            saveData();
-            
-            // Clear inputs
-            exerciseInput.value = '';
-            durationInput.value = '';
-        }
-    });
-    // Export data
-    exportBtn.addEventListener('click', () => {
-        const dataStr = JSON.stringify(fitnessData, null, 2);
-        const blob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `fitness-data-${today}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-    });
+  updateStats();
+  updateProgressBar();
 
-    // Initialize
-    loadData();
-});
+  workoutHistory.push({
+    date: new Date().toDateString(),
+    exercise,
+    duration,
+    calories
+  });
+
+  localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+
+  exerciseInput.value = '';
+  durationInput.value = '';
+};
+
+/* 🌊 Water Intake */
+plusWaterBtn.onclick = () => {
+  waterCount++;
+  waterCountElem.textContent = waterCount;
+};
+
+minusWaterBtn.onclick = () => {
+  if (waterCount > 0) waterCount--;
+  waterCountElem.textContent = waterCount;
+};
+
+/* 🌙 Toggle Theme */
+toggleThemeBtn.onclick = () => {
+  document.body.classList.toggle('dark');
+};
+
+/* 📊 Update Stats */
+function updateStats() {
+  totalWorkoutsElem.textContent = totalWorkouts;
+  totalMinutesElem.textContent = totalMinutes;
+  caloriesBurnedElem.textContent = totalMinutes * 5;
+}
+
+/* 📈 Goal Progress */
+function updateProgressBar() {
+  const goal = parseInt(goalInput.value) || 60;
+  const percent = Math.min(100, Math.floor((totalMinutes / goal) * 100));
+  progressBar.style.width = `${percent}%`;
+}
+
+/* 🗂️ View History */
+viewHistoryBtn.onclick = () => {
+  historyList.innerHTML = '';
+  const grouped = {};
+
+  workoutHistory.forEach(item => {
+    if (!grouped[item.date]) grouped[item.date] = [];
+    grouped[item.date].push(item);
+  });
+
+  for (let date in grouped) {
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>${date}</strong><ul>` + grouped[date].map(w =>
+      `<li>${w.exercise} - ${w.duration} min (${w.calories} cal)</li>`
+    ).join('') + '</ul>';
+    historyList.appendChild(li);
+  }
+};
