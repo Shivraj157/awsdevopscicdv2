@@ -1,12 +1,44 @@
-// 1. Display the current date
-document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-IN', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
+// Elements
+const currentDate = document.getElementById('current-date');
+const exerciseInput = document.getElementById('exercise-input');
+const durationInput = document.getElementById('duration-input');
+const workoutList = document.getElementById('workout-list');
+const addWorkoutBtn = document.getElementById('add-workout');
 
-// 2. Motivational Quotes Feature
+const totalWorkoutsElem = document.getElementById('total-workouts');
+const totalMinutesElem = document.getElementById('total-minutes');
+const caloriesBurnedElem = document.getElementById('calories-burned');
+
+const plusWaterBtn = document.getElementById('plus-water');
+const minusWaterBtn = document.getElementById('minus-water');
+const waterCountElem = document.getElementById('water-count');
+
+const motivationalQuoteElem = document.getElementById('motivational-quote');
+const refreshQuoteBtn = document.getElementById('refresh-quote');
+
+const unitSelect = document.getElementById('unit-select');
+const timeUnitSelect = document.getElementById('time-unit-select');
+const userProfileForm = document.getElementById('user-profile-form');
+
+const ctx = document.getElementById('weekly-chart').getContext('2d');
+
+// Initial state
+let workoutHistory = JSON.parse(localStorage.getItem('workoutHistory')) || [];
+let waterCount = parseInt(localStorage.getItem('waterCount')) || 0;
+let totalMinutes = 0;
+let totalWorkouts = 0;
+
+// --- Display current date ---
+function displayCurrentDate() {
+  const options = { 
+    weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', 
+    hour: '2-digit', minute: '2-digit', hour12: true, timeZoneName: 'short' 
+  };
+  currentDate.textContent = new Date().toLocaleString('en-IN', options);
+}
+displayCurrentDate();
+
+// --- Motivational Quotes ---
 const quotes = [
   "Your body can stand almost anything. It’s your mind you have to convince.",
   "Push yourself because no one else is going to do it for you.",
@@ -17,132 +49,142 @@ const quotes = [
   "You don’t find willpower, you create it.",
   "A little progress each day adds up to big results.",
 ];
-const quoteElement = document.getElementById("motivational-quote");
-const refreshQuoteBtn = document.getElementById("refresh-quote");
 
 function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  quoteElement.textContent = `"${quotes[randomIndex]}"`;
+  motivationalQuoteElem.textContent = `"${quotes[randomIndex]}"`;
 }
-refreshQuoteBtn.addEventListener("click", showRandomQuote);
-showRandomQuote(); // Initial load
 
-// 3. Workout Form Handling
-const exerciseInput = document.getElementById('exercise-input');
-const durationInput = document.getElementById('duration-input');
-const workoutList = document.getElementById('workout-list');
+refreshQuoteBtn.addEventListener('click', showRandomQuote);
+showRandomQuote();
 
-let workouts = [];
-let totalMinutes = 0;
+// --- Add workout to list and update stats ---
+function addWorkout(exercise, duration) {
+  const calories = duration * 5;
+  workoutHistory.push({
+    date: new Date().toDateString(),
+    exercise,
+    duration,
+    calories,
+  });
+  localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+  renderWorkoutList();
+  updateStats();
+  updateChart();
+}
 
-document.querySelector('.workout-form').addEventListener('submit', function (e) {
-  e.preventDefault();
+// Render workout history list
+function renderWorkoutList() {
+  workoutList.innerHTML = '';
+  workoutHistory.forEach(workout => {
+    const li = document.createElement('li');
+    li.textContent = `${workout.exercise} — ${workout.duration} min`;
+    workoutList.appendChild(li);
+  });
+}
 
+// Update stats from workout history
+function updateStats() {
+  totalWorkouts = workoutHistory.length;
+  totalMinutes = workoutHistory.reduce((sum, w) => sum + w.duration, 0);
+  totalWorkoutsElem.textContent = totalWorkouts;
+  totalMinutesElem.textContent = totalMinutes;
+  caloriesBurnedElem.textContent = totalMinutes * 5;
+}
+
+// Handle add workout button click
+addWorkoutBtn.onclick = () => {
   const exercise = exerciseInput.value.trim();
   const duration = parseInt(durationInput.value.trim());
+  if (!exercise || isNaN(duration) || duration <= 0) return;
+  addWorkout(exercise, duration);
+  exerciseInput.value = '';
+  durationInput.value = '';
+};
 
-  if (exercise && duration > 0) {
-    workouts.push({ exercise, duration });
-
-    const li = document.createElement('li');
-    li.textContent = `${exercise} - ${duration} min`;
-    workoutList.appendChild(li);
-
-    updateStats();
-    updateChart();
-
-    exerciseInput.value = '';
-    durationInput.value = '';
-  }
-});
-
-// 4. Update Stats
-function updateStats() {
-  document.getElementById('total-workouts').textContent = workouts.length;
-
-  totalMinutes = workouts.reduce((sum, w) => sum + w.duration, 0);
-  document.getElementById('total-minutes').textContent = totalMinutes;
-
-  // Assume 5 calories burned per minute
-  const calories = totalMinutes * 5;
-  document.getElementById('calories-burned').textContent = calories;
+// --- Water Intake Tracker ---
+function updateWaterDisplay() {
+  waterCountElem.textContent = waterCount;
+  localStorage.setItem('waterCount', waterCount);
 }
 
-// 5. Water Intake Tracker
-let waterCount = 0;
-const waterCountEl = document.getElementById('water-count');
-document.getElementById('plus-water').addEventListener('click', () => {
+plusWaterBtn.onclick = () => {
   waterCount++;
   updateWaterDisplay();
-});
-document.getElementById('minus-water').addEventListener('click', () => {
+};
+
+minusWaterBtn.onclick = () => {
   if (waterCount > 0) waterCount--;
   updateWaterDisplay();
-});
-function updateWaterDisplay() {
-  waterCountEl.textContent = `${waterCount}`;
-}
+};
 
-// 6. User Preferences (Units)
-const unitSelect = document.getElementById('unit-select');
-const timeUnitSelect = document.getElementById('time-unit-select');
+updateWaterDisplay();
 
-document.getElementById('user-profile-form').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const distanceUnit = unitSelect.value;
-  const timeUnit = timeUnitSelect.value;
-
-  localStorage.setItem('distanceUnit', distanceUnit);
-  localStorage.setItem('timeUnit', timeUnit);
-
+// --- User Profile and Preferences ---
+function savePreferences() {
+  localStorage.setItem('distanceUnit', unitSelect.value);
+  localStorage.setItem('timeUnit', timeUnitSelect.value);
   alert('Preferences saved!');
-});
+}
 
 function loadPreferences() {
-  const savedDistance = localStorage.getItem('distanceUnit');
-  const savedTime = localStorage.getItem('timeUnit');
-
-  if (savedDistance) unitSelect.value = savedDistance;
-  if (savedTime) timeUnitSelect.value = savedTime;
+  const distanceUnit = localStorage.getItem('distanceUnit') || 'km';
+  const timeUnit = localStorage.getItem('timeUnit') || 'min';
+  unitSelect.value = distanceUnit;
+  timeUnitSelect.value = timeUnit;
 }
+userProfileForm.addEventListener('submit', e => {
+  e.preventDefault();
+  savePreferences();
+});
 loadPreferences();
 
-// 7. Weekly Progress Chart (Demo simulated values)
-const ctx = document.getElementById('weekly-chart').getContext('2d');
+// --- Weekly Progress Chart ---
+const chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+// Initialize chart with zeros
+const weeklyData = [0, 0, 0, 0, 0, 0, 0];
+
 const weeklyChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    labels: chartLabels,
     datasets: [{
       label: 'Workout Minutes',
-      data: [10, 20, 15, 25, 30, 0, 10],
-      backgroundColor: '#43b97f'
+      data: weeklyData,
+      backgroundColor: '#43b97f',
     }]
   },
   options: {
+    responsive: true,
     scales: {
       y: {
         beginAtZero: true,
-        ticks: {
-          stepSize: 10
-        },
-        title: {
-          display: true,
-          text: 'Minutes'
-        }
+        suggestedMax: 60,
+        title: { display: true, text: 'Minutes' }
       }
     }
   }
 });
 
-// Function to update chart with current week's data
+// Update chart with current week's data from workoutHistory
 function updateChart() {
-  const today = new Date().getDay(); // 0 (Sun) to 6 (Sat)
-  const index = today === 0 ? 6 : today - 1; // Map Sun to index 6
-  weeklyChart.data.datasets[0].data[index] = totalMinutes;
+  // Reset weeklyData
+  for (let i = 0; i < 7; i++) weeklyData[i] = 0;
+
+  // Aggregate durations by weekday index (Mon=0 ... Sun=6)
+  workoutHistory.forEach(w => {
+    const wDate = new Date(w.date);
+    let day = wDate.getDay(); // Sun=0 .. Sat=6
+    day = day === 0 ? 6 : day - 1; // Remap Sunday to 6, Mon=0
+    weeklyData[day] += w.duration;
+  });
+
+  weeklyChart.data.datasets[0].data = weeklyData;
   weeklyChart.update();
 }
 
-// 8. Initialize defaults
+// Initialize
+renderWorkoutList();
 updateStats();
-updateWaterDisplay();
+updateChart();
