@@ -9,34 +9,34 @@
 <body>
   <div class="fitness-app">
     <header>
-      <h1>My Fitness Tracker</h1>
+      <h1><span class="icon">🏃‍♂️</span> My Fitness Tracker</h1>
       <div class="date-display" id="current-date"></div>
-      <button id="export-data" class="export-btn">Export Data</button>
+      <button id="export-data" class="export-btn" title="Export workout data">📥 Export Data</button>
     </header>
 
     <main>
       <section class="workout-section">
         <h2>Today's Workout</h2>
-        <div class="workout-form">
-          <input type="text" id="exercise-input" placeholder="Enter exercise">
-          <input type="number" id="duration-input" placeholder="Minutes">
-          <button id="add-workout">Add Workout</button>
-        </div>
+        <form class="workout-form" autocomplete="off">
+          <input type="text" id="exercise-input" placeholder="Enter exercise (e.g., Pushups)" required aria-label="Exercise" />
+          <input type="number" id="duration-input" placeholder="Minutes" min="1" step="1" required aria-label="Duration (minutes)" />
+          <button type="submit" id="add-workout" class="primary-btn">Add Workout</button>
+        </form>
         <ul class="workout-list" id="workout-list"></ul>
       </section>
 
       <section class="stats-section">
         <h2>Today's Stats</h2>
         <div class="stats-cards">
-          <div class="stat-card">
+          <div class="stat-card" aria-label="Workout Count">
             <span class="stat-value" id="total-workouts">0</span>
             <span class="stat-label">Workouts</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" aria-label="Total Minutes">
             <span class="stat-value" id="total-minutes">0</span>
             <span class="stat-label">Minutes</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" aria-label="Calories Burned">
             <span class="stat-value" id="calories-burned">0</span>
             <span class="stat-label">Calories</span>
           </div>
@@ -45,21 +45,19 @@
 
       <section class="water-section">
         <h2>Water Intake</h2>
-        <div class="water-tracker">
-          <button class="water-btn" id="minus-water">-</button>
+        <div class="water-tracker" aria-label="Water Tracker">
+          <button class="water-btn" id="minus-water" title="Remove a glass">-</button>
           <div class="water-count" id="water-count">0</div>
-          <button class="water-btn" id="plus-water">+</button>
+          <button class="water-btn" id="plus-water" title="Add a glass">+</button>
           <span class="water-unit">glasses</span>
         </div>
       </section>
     </main>
 
     <footer>
-      <p>© 2025 Simple Fitness Tracker</p>
-      <p>Created by Shivraj Jadhav, Pune</p>
+      <p>© 2025 Simple Fitness Tracker | Created by <a href="mailto:shivraj@example.com">Shivraj Jadhav, Pune</a></p>
     </footer>
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
