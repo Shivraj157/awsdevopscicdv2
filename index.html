@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simple Fitness Tracker</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="fitness-app">
@@ -14,48 +15,87 @@
       <button id="export-data" class="export-btn" title="Export workout data">📥 Export Data</button>
     </header>
 
+    <!-- Motivational Quote Section -->
+    <section class="motivation-section">
+      <blockquote id="motivational-quote">
+        "The journey of a thousand miles begins with a single step."
+      </blockquote>
+      <button id="refresh-quote" class="secondary-btn" title="New motivational quote">🔄 New Quote</button>
+    </section>
+
     <main>
+      <!-- Workout Entry -->
       <section class="workout-section">
         <h2>Today's Workout</h2>
         <form class="workout-form" autocomplete="off">
-          <input type="text" id="exercise-input" placeholder="Enter exercise (e.g., Pushups)" required aria-label="Exercise" />
-          <input type="number" id="duration-input" placeholder="Minutes" min="1" step="1" required aria-label="Duration (minutes)" />
+          <input type="text" id="exercise-input" placeholder="Enter exercise" required />
+          <input type="number" id="duration-input" placeholder="Minutes" min="1" />
           <button type="submit" id="add-workout" class="primary-btn">Add Workout</button>
         </form>
         <ul class="workout-list" id="workout-list"></ul>
       </section>
 
+      <!-- Stats -->
       <section class="stats-section">
         <h2>Today's Stats</h2>
         <div class="stats-cards">
-          <div class="stat-card" aria-label="Workout Count">
+          <div class="stat-card">
             <span class="stat-value" id="total-workouts">0</span>
             <span class="stat-label">Workouts</span>
           </div>
-          <div class="stat-card" aria-label="Total Minutes">
+          <div class="stat-card">
             <span class="stat-value" id="total-minutes">0</span>
             <span class="stat-label">Minutes</span>
           </div>
-          <div class="stat-card" aria-label="Calories Burned">
+          <div class="stat-card">
             <span class="stat-value" id="calories-burned">0</span>
             <span class="stat-label">Calories</span>
           </div>
         </div>
       </section>
 
+      <!-- Weekly Progress Chart -->
+      <section class="weekly-chart-section">
+        <h2>Weekly Progress</h2>
+        <canvas id="weekly-chart" height="180"></canvas>
+      </section>
+
+      <!-- Water Intake -->
       <section class="water-section">
         <h2>Water Intake</h2>
-        <div class="water-tracker" aria-label="Water Tracker">
-          <button class="water-btn" id="minus-water" title="Remove a glass">-</button>
+        <div class="water-tracker">
+          <button class="water-btn" id="minus-water">-</button>
           <div class="water-count" id="water-count">0</div>
-          <button class="water-btn" id="plus-water" title="Add a glass">+</button>
+          <button class="water-btn" id="plus-water">+</button>
           <span class="water-unit">glasses</span>
         </div>
+      </section>
+
+      <!-- User Profile -->
+      <section class="profile-section">
+        <h2>User Profile</h2>
+        <form id="user-profile-form">
+          <label>
+            Distance Units:
+            <select id="unit-select">
+              <option value="km">Kilometers (km)</option>
+              <option value="miles">Miles (mi)</option>
+            </select>
+          </label>
+          <label>
+            Time Format:
+            <select id="time-unit-select">
+              <option value="min">Minutes</option>
+              <option value="hr">Hours</option>
+            </select>
+          </label>
+          <button type="submit" class="primary-btn">Save Settings</button>
+        </form>
       </section>
     </main>
 
     <footer>
-      <p>© 2025 Simple Fitness Tracker | Created by <a href="mailto:shivraj@example.com">Shivraj Jadhav, Pune</a></p>
+      <p>© 2025 Simple Fitness Tracker | Created by Shivraj Jadhav, Pune</p>
     </footer>
   </div>
   <script src="app.js"></script>

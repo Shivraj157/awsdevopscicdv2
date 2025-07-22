@@ -2,12 +2,12 @@
   --primary: #43b97f;
   --primary-dark: #217356;
   --bg: #f4f4f9;
-  --card-bg: #fafcfa;
+  --card-bg: #fff;
   --accent: #5dd67a;
   --danger: #f44336;
   --text: #212529;
-  --text-alt: #5b6567;
-  --shadow: 0 4px 16px rgba(34, 39, 56, 0.10);
+  --text-alt: #6c757d;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -17,213 +17,212 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background-color: var(--bg);
   color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  padding: 0 1rem;
 }
 
 .fitness-app {
-  max-width: 500px;
-  margin: 2rem auto;
+  max-width: 920px;
+  margin: auto;
   background: var(--card-bg);
-  padding: 2rem 1.5rem 1rem 1.5rem;
-  border-radius: 18px;
+  padding: 1.5rem;
+  border-radius: 12px;
   box-shadow: var(--shadow);
 }
 
-header, footer {
+header,
+footer {
   background-color: var(--primary);
-  color: #fff;
-  border-radius: 8px;
+  color: white;
+  padding: 1.2rem;
   text-align: center;
-  margin-bottom: 1.1rem;
-  padding: 1.2rem 0.5rem;
-  box-shadow: 0 2px 8px rgba(67, 185, 127, 0.08);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-header h1 {
-  font-size: 2rem;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .6rem;
-}
-
-header .date-display {
+footer {
+  margin-top: 2rem;
   font-size: 0.95rem;
-  margin-top: .4rem;
-  color: #c1f0dd;
-  letter-spacing: 0.5px;
 }
 
-.export-btn {
-  margin-top: .8rem;
-  padding: 0.45rem 1.1rem;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.02rem;
-  cursor: pointer;
-  transition: background .19s;
+.icon {
+  font-size: 1.3rem;
 }
-.export-btn:hover {
+
+.date-display {
+  font-size: 0.95rem;
+  margin-top: 0.3rem;
+  color: #c8f5df;
+}
+
+/* Motivational Section */
+.motivation-section {
+  background: #eafdf3;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+#motivational-quote {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--primary-dark);
+  margin-bottom: 0.6rem;
+}
+.secondary-btn {
+  border: none;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.secondary-btn:hover {
   background: var(--primary-dark);
 }
 
-form.workout-form {
+/* Form & Inputs */
+.workout-form {
   display: flex;
-  gap: .5rem;
-  margin: .6rem 0;
   flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
 }
-
-form.workout-form input[type="text"], 
-form.workout-form input[type="number"] {
-  flex: 2 1 40%;
+input[type="text"],
+input[type="number"],
+select {
+  flex: 1 1 100%;
   padding: 0.6rem;
-  border: 1px solid #ddd;
+  font-size: 1rem;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 0.97rem;
-  background: #fafbfc;
 }
 .primary-btn {
   background: var(--primary);
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  font-weight: 600;
+  color: white;
   border: none;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background .19s;
 }
 .primary-btn:hover {
   background: var(--primary-dark);
 }
 
-/* Workout List */
+/* Workout Items */
 .workout-list {
   list-style: none;
-  margin: 0.6rem 0 0.2rem 0;
-  padding-left: 0;
+  padding: 0;
+  margin: 0.5rem 0;
 }
 .workout-list li {
-  background: #e1fbe9;
-  margin-bottom: .5rem;
+  background: #f3fcf7;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
   border-left: 4px solid var(--primary);
-  border-radius: 6px;
-  padding: 0.65rem 1.1rem;
-  color: var(--primary-dark);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background .2s;
-}
-.workout-list li:hover {
-  background: #c9f5db;
+  border-radius: 5px;
 }
 
-/* Stats Cards */
+/* Stats */
 .stats-cards {
   display: flex;
-  gap: 1rem;
-  margin-top: .7rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
 }
 .stat-card {
-  flex: 1 1 30%;
-  background: #fff;
-  padding: .9rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(67,185,127,0.06);
+  flex: 1;
   text-align: center;
+  padding: 1rem;
+  background: #f9f9f9;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
 }
 .stat-value {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 0.14rem;
 }
 .stat-label {
-  font-size: 1rem;
   color: var(--text-alt);
-  font-weight: 500;
-  letter-spacing: 0.6px;
+  font-size: 1rem;
 }
 
-/* Water Tracker */
-.water-section h2 {
-  margin-bottom: 0.2rem;
+/* Chart Section */
+.weekly-chart-section {
+  margin-top: 1.5rem;
 }
+canvas#weekly-chart {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+/* Water Intake */
 .water-tracker {
   display: flex;
   align-items: center;
-  gap: 1.1rem;
+  gap: 1rem;
   margin-top: 1rem;
-  background: #e9fcf4;
-  padding: .8rem 1.1rem;
-  border-radius: 7px;
-  box-shadow: 0 1px 3px rgba(67,185,127,0.04);
 }
 .water-btn {
   width: 38px;
   height: 38px;
-  font-size: 1.6rem;
-  font-weight: bold;
-  background: #d1f5e0;
-  color: var(--primary-dark);
+  font-size: 1.2rem;
+  background: #dbf7ea;
   border: none;
   border-radius: 6px;
-  transition: background .19s, color .19s;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 .water-btn:hover {
   background: var(--danger);
-  color: #fff;
+  color: white;
 }
 .water-count {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  color: var(--primary-dark);
 }
 .water-unit {
-  font-size: 1.01rem;
   color: var(--text-alt);
+  font-size: 1rem;
 }
 
-/* Responsive Design */
-@media (max-width: 700px) {
-  .fitness-app {
-    padding: 1.2rem 0.4rem 0.7rem 0.4rem;
-  }
+/* Profile Section */
+.profile-section {
+  margin-top: 2rem;
+  background: #fbfbfb;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.profile-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.profile-section label {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* Buttons */
+button {
+  transition: all 0.2s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .stats-cards {
     flex-direction: column;
-    gap: .5rem;
   }
-  .stat-card {
-    margin-bottom: 0.3rem;
-  }
-  form.workout-form {
+  .workout-form {
     flex-direction: column;
-    gap: .3rem;
   }
-}
-
-footer {
-  font-size: 0.97rem;
-  margin-top:1.8rem;
-  background: var(--primary-dark);
-  letter-spacing: .018rem;
-}
-footer a {
-  color: #e9fcf4;
-  text-decoration: underline dotted;
-}
-footer a:hover {
-  color: #fff;
 }
