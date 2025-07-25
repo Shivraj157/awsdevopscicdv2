@@ -9,6 +9,8 @@ const addWorkoutBtn = document.getElementById('add-workout');
 const totalWorkoutsElem = document.getElementById('total-workouts');
 const totalMinutesElem = document.getElementById('total-minutes');
 const caloriesBurnedElem = document.getElementById('calories-burned');
+const API_URL = 'http://3.238.56.164:3001/api';
+
 
 
 const plusWaterBtn = document.getElementById('plus-water');
