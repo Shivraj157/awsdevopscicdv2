@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Personal — Fitness Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/static/assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Fitness Tracker</div>
+    <nav>
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/workout.html">Workouts</a>
+      <a href="/personal.html" class="active">Personal</a>
+      <button id="logout_btn">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container grid-2">
+    <section class="card">
+      <h2>Notes</h2>
+      <div class="row">
+        <input type="date" id="n_date">
+        <input type="text" id="n_text" placeholder="Write a quick note...">
+        <button id="n_add">Save</button>
+      </div>
+      <div id="n_list" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Water Intake</h2>
+      <div class="row">
+        <input type="date" id="water_date">
+        <input type="number" id="water_goal" placeholder="Goal ml (e.g., 3000)">
+        <input type="number" id="water_consumed" placeholder="Consumed ml">
+        <button id="water_save">Save</button>
+      </div>
+      <div id="water_days" class="list"></div>
+    </section>
+  </main>
+
+  <script src="/static/assets/js/common.js"></script>
+  <script src="/static/assets/js/personal.js"></script>
+</body>
+</html>
