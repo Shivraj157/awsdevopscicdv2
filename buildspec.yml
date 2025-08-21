@@ -2,17 +2,17 @@ version: 0.2
 phases:
  install:
    commands:
-     - echo "Skipping yum update"
+     - echo "Install phase"
  build:
    commands:
-     - echo "Build step starts"
-     # If you have a Node.js app, you could run: npm install && npm run build
-     # If Python, you could create venv, install dependencies, etc.
+     - echo "Build phase"
 artifacts:
  files:
    - appspec.yml
    - scripts/**/*
-   - src/**/*
    - index.html
-   - server.js
+   - style.css
+   - app.js
+   - sample.json
+   - README.md
  discard-paths: yes
