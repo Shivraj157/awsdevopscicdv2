@@ -2,8 +2,15 @@ version: 0.0
 os: linux
 files:
  - source: /
-   destination: /home/ubuntu/app  # You can change this to where you want code deployed
+   destination: /home/ubuntu/app
 hooks:
+ BeforeInstall:
+   - location: scripts/cleanup.sh
+     timeout: 60
+     runas: root
+   - location: scripts/fix_line_endings.sh
+     timeout: 60
+     runas: root
  AfterInstall:
    - location: scripts/install_nginx.sh
      timeout: 300
