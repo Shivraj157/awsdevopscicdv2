@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
  - source: /
-   destination: /home/ubuntu/app   # You can change this to where you want code deployed
+   destination: /home/ubuntu/app/README.md   # You can change this to where you want code deployed
 hooks:
  AfterInstall:
    - location: scripts/install_nginx.sh
