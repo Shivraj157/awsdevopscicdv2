@@ -1,14 +1,14 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /var/www/html
+ - source: /
+   destination: /home/ubuntu/app   # You can change this to where you want code deployed
 hooks:
-  AfterInstall:
-    - location: scripts/install_nginx.sh
-      timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: scripts/start_nginx.sh
-      timeout: 300
-      runas: root
+ AfterInstall:
+   - location: scripts/install_nginx.sh
+     timeout: 300
+     runas: root
+ ApplicationStart:
+   - location: scripts/start_nginx.sh
+     timeout: 300
+     runas: root

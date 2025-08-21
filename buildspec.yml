@@ -6,7 +6,13 @@ phases:
  build:
    commands:
      - echo "Build step starts"
-     - echo "You can put npm build or zip here"
+     # If you have a Node.js app, you could run: npm install && npm run build
+     # If Python, you could create venv, install dependencies, etc.
 artifacts:
  files:
-   - '**/*'
+   - appspec.yml
+   - scripts/**/*
+   - src/**/*
+   - index.html
+   - server.js
+ discard-paths: yes
